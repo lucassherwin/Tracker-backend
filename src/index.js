@@ -1,6 +1,24 @@
 const express = require('express');
+const mongoose = require('mongoose');
 
 const app = express(); // our application
+
+// from mongoDB
+const mongoUri = 'mongodb+srv://admin:adminPassword@cluster0.0wgoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+// connect to mongoDB 
+// pass in uri and options object
+mongoose.connect(mongoUri, {
+  useNewUrlParser: true,
+  useCreateIndex: true
+});
+
+mongoose.connection.on('connected', () => {
+  console.log('Connected to mongo instance');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('Error connecting to mongo', err);
+});
 
 // route
 app.get('/', (req, res) => {
