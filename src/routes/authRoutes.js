@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 const User = mongoose.model('User');
 
@@ -14,11 +15,14 @@ router.post('/signup', async (req, res) => {
   try {
     const user = new User({ email, password }); // create a new user
     await user.save(); // save user in mongoDB
+    
+    const token = jwt.sign({ userID: user._id }, 'MY_SECRET_KEY'); // generate the jwt token
+    res.send({ token }); // send it back to the user
+
   } catch(err) {
     return res.status(422).send(err.message); // send invalid user request message (something wrong with email or password)
   }
 
-  res.send('You made a post request');
 });
 
 module.exports = router;
