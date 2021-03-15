@@ -1,3 +1,4 @@
+// 'npm run dev' to run
 require('./models/User');
 const express = require('express');
 const mongoose = require('mongoose');
