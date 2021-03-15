@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const bodyParser = require('body-parser');
+const requireAuth = require('./middlewares/requireAuth');
 
 const app = express(); // our application
 app.use(bodyParser.json()); // parse json
@@ -27,8 +28,11 @@ mongoose.connection.on('error', (err) => {
 });
 
 // route
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World</h1>'); // response
+// when a request is received:
+  // first run the middleware -- make sure the user provided a valid jwt
+  // if they did we allow them to access the route
+app.get('/', requireAuth, (req, res) => {
+  res.send(`Your email: ${req.user.email}`); // response
 });
 
 app.listen(3000, () => {
