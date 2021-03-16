@@ -29,7 +29,7 @@ router.post('/signin', async (req, res) => {
 
   if(!email || !password) // if there is no email or password
   {
-    return res.status(422).send({ error: 'Mus provide email and password' });
+    return res.status(422).send({ error: 'Must provide email and password' });
   }
 
   // start log in process
